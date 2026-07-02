@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <link rel="apple-touch-icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=1366, height=1024, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover" />
+  <title>CH.01 — E-Reader-Typografie · Type Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-background flex flex-col">
+
+  <!-- Chapter Header -->
+  <div class="ch1-header">
+    <header class="chapter-header" id="chapter-header">
+      <div class="chapter-header-inner">
+        <span class="chapter-num font-mono">CH.01</span>
+        <span class="chapter-title-label font-display">E-Reader-Typografie-Simulator</span>
+        <div class="progress-dots" id="progress-dots"></div>
+        <div class="chapter-header-right">
+          <button class="btn-complete" id="btn-complete" type="button">Abschließen &amp; weiter</button>
+        </div>
+      </div>
+      <p class="chapter-eyebrow text-muted" id="chapter-eyebrow">
+        Passe die typografischen Variablen so an, dass es für dich angenehm zu lesen ist.
+      </p>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main class="chapter-main animate-in">
+    <div class="ch1-layout">
+
+      <!-- E-Reader Preview — structure unchanged, size driven purely by 1fr column width -->
+      <div>
+        <div class="ch1-device-wrap">
+          <div class="ch1-screen" id="ch1-screen">
+            <div class="ch1-screen-inner" id="ch1-screen-inner">
+              <div class="ch1-screen-bar">
+                <span>Franz Kafka Die Verwandlung</span>
+                <span>Seite 1</span>
+              </div>
+              <div class="ch1-text font-showcase" id="ch1-text"></div>
+              <div class="ch1-screen-foot">
+                <span>type-lab.app</span>
+                <span>76%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls (right side) -->
+      <div class="ch1-controls">
+
+        <!-- Dark / Light Mode Toggle -->
+        <div class="panel">
+          <div class="panel-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Anzeige
+          </div>
+          <div class="ch1-mode-row">
+            <div class="ch1-mode-left">
+              <span class="ch1-mode-icon" id="mode-icon">
+                <!-- Sun icon (initial state: light mode) -->
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              </span>
+              <span id="mode-label">Heller Modus</span>
+            </div>
+            <button class="switch" id="dark-mode-switch" type="button" aria-pressed="false" aria-label="Dunkelmodus umschalten"></button>
+          </div>
+        </div>
+
+        <!-- All Sliders in one panel -->
+        <div class="panel">
+          <div class="panel-title">Einstellungen</div>
+
+          <!-- Helligkeit -->
+          <div class="control-row">
+            <div class="control-label-row">
+              <span>Helligkeit</span>
+              <span class="control-val font-mono">100%</span>
+            </div>
+            <div class="brightness-row">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <div id="brightness-slider-container" style="flex:1"></div>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+          </div>
+
+          <!-- Font Size, Line Height, Letter Spacing, Margins, Weight — built by JS -->
+          <div id="type-controls"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="progress.js"></script>
+  <script src="overlay.js"></script>
+  <script src="chapter1.js"></script>
+  <script src="slider-touch.js"></script>
+  <script>
+  (function() {
+    function pwaNav(e) {
+      var a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      try {
+        var url = new URL(a.href, location.href);
+        if (url.origin !== location.origin) return;
+      } catch(ex) { return; }
+      e.preventDefault();
+      window.location.assign(a.href);
+    }
+    document.addEventListener('touchend', pwaNav, { passive: false });
+    document.addEventListener('click',    pwaNav, false);
+  })();
+  </script>
+</body>
+</html>

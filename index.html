@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <link rel="apple-touch-icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=1366, height=1024, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover" />
+  <title>Type Lab — Willkommen</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .splash {
+      width: 1366px;
+      height: 1024px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .splash-headline {
+      font-family: 'Boldonse', sans-serif;
+      font-size: 3.75rem;
+      line-height: 1.2;
+      text-align: center;
+      color: var(--foreground);
+    }
+
+    .splash-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      background: var(--c-ink);
+      color: var(--c-bone);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 9999px;
+      transition: opacity 0.2s;
+    }
+    .splash-btn:hover { opacity: 0.8; }
+  </style>
+</head>
+<body class="bg-background">
+
+  <div class="splash">
+    <div class="splash-inner" id="splash-inner">
+      <h1 class="splash-headline">
+        Willkommen bei Typelab<br />
+      </h1>
+      <a href="chapterpage.html" class="splash-btn">Jetzt E-Learning starten</a>
+    </div>
+  </div>
+
+  <script>
+  window.addEventListener('load', function() {
+    document.getElementById('splash-inner').classList.add('is-loaded');
+  });
+  </script>
+  <script>
+  (function() {
+    function pwaNav(e) {
+      var a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      try {
+        var url = new URL(a.href, location.href);
+        if (url.origin !== location.origin) return;
+      } catch(ex) { return; }
+      e.preventDefault();
+      window.location.assign(a.href);
+    }
+    document.addEventListener('touchend', pwaNav, { passive: false });
+    document.addEventListener('click',    pwaNav, false);
+  })();
+  </script>
+</body>
+</html>

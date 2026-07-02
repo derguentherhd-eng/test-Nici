@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <link rel="apple-touch-icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=1366, height=1024, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover" />
+  <title>CH.03 — Typography Timeline · Type Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-background flex flex-col">
+
+  <div class="ch3-header">
+    <header class="chapter-header">
+      <div class="chapter-header-inner">
+        <span class="chapter-num font-mono">CH.03</span>
+        <span class="chapter-title-label font-display">Typografie-Zeitstrahl 1970 → 2016</span>
+        <div class="progress-dots" id="progress-dots"></div>
+        <div class="chapter-header-right">
+          <button class="btn-complete" id="btn-complete" type="button">Abschließen &amp; weiter</button>
+        </div>
+      </div>
+      <p class="chapter-eyebrow text-muted">
+        Scrolle durch den Zeitstrahl, um Jahrzehnte der Typografiegeschichte zu erkunden. 
+  </div>
+
+  <main class="chapter-main animate-in" style="flex:1;overflow:hidden">
+    <div class="ch3-scroll-area" id="ch3-scroll">
+      <div class="ch3-layout">
+        <!-- Timeline entries -->
+        <div class="ch3-main">
+          <div class="ch3-timeline-line"></div>
+          <div id="ch3-entries"></div>
+        </div>
+        <!-- Swatch sidebar -->
+        <div class="ch3-sidebar">
+          <div class="ch3-sidebar-inner" id="ch3-sidebar-inner">
+            <div class="ch3-cards-stack" id="ch3-swatches"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="progress.js"></script>
+  <script src="overlay.js"></script>
+  <script src="chapter3.js"></script>
+  <script>
+  (function() {
+    function pwaNav(e) {
+      var a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      try {
+        var url = new URL(a.href, location.href);
+        if (url.origin !== location.origin) return;
+      } catch(ex) { return; }
+      e.preventDefault();
+      window.location.assign(a.href);
+    }
+    document.addEventListener('touchend', pwaNav, { passive: false });
+    document.addEventListener('click',    pwaNav, false);
+  })();
+  </script>
+</body>
+</html>

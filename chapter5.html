@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <link rel="apple-touch-icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=1366, height=1024, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover" />
+  <title>CH.05 — Generative Eingaben · Type Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-background flex flex-col">
+
+  <div class="ch5-header">
+    <header class="chapter-header">
+      <div class="chapter-header-inner">
+        <span class="chapter-num font-mono">CH.05</span>
+        <span class="chapter-title-label font-display">Generative Typografie Reaktive Eingaben</span>
+        <div class="progress-dots" id="progress-dots"></div>
+        <div class="chapter-header-right">
+          <button class="btn-complete" id="btn-complete" type="button">Abschließen &amp; weiter</button>
+        </div>
+      </div>
+      <p class="chapter-eyebrow text-muted">
+        Probiere aus wie durch das Mikrofon und die Kamera der Text regaiert. Das Mikrofon steuert die Schriftstärke (Weight) &amp; die Neigung (Slant) die Kamera verändert Größe &amp; Breite (Width). Da die Kamera die Entfernung erkennt, bewege das iPad!
+      </p>
+    </header>
+  </div>
+
+  <main class="chapter-main animate-in">
+    <div class="ch5-layout">
+
+      <!-- Sidebar -->
+      <aside class="ch5-sidebar">
+
+        <!-- Inputs panel -->
+        <div class="panel">
+          <div class="panel-title font-mono">Eingaben</div>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+
+            <div class="ch5-toggle-row" id="toggle-audio" role="button" tabindex="0">
+              <span class="ch5-toggle-row-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                Mikrofon
+              </span>
+              <span class="ch5-input-right">
+                <span class="ch5-status font-mono" id="audio-status">aus</span>
+                <button class="switch" id="switch-audio" type="button" aria-label="Mikrofon umschalten"></button>
+              </span>
+            </div>
+
+            <div class="ch5-toggle-row" id="toggle-dist" role="button" tabindex="0">
+              <span class="ch5-toggle-row-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+                Kamera · Gesicht
+              </span>
+              <span class="ch5-input-right">
+                <span class="ch5-status font-mono" id="dist-status">aus</span>
+                <button class="switch" id="switch-dist" type="button" aria-label="Kamera umschalten"></button>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Influence panel -->
+        <div class="panel">
+          <div class="panel-title font-mono">Einfluss</div>
+          <div class="ch5-influence-row" id="audio-influence-row" style="opacity:0.4">
+            <div class="ch5-influence-label">
+              <span>Mikrofon → Weight &amp; Slant</span>
+              <span class="font-mono" id="audio-inf-val">70%</span>
+            </div>
+            <div class="slider-wrap" id="audio-inf-slider"></div>
+            <div class="ch5-meter"><div class="ch5-meter-fill" id="audio-meter" style="width:0%"></div></div>
+          </div>
+          <div class="ch5-influence-row" id="dist-influence-row" style="opacity:0.4">
+            <div class="ch5-influence-label">
+              <span>Gesichtsabstand → Größe &amp; Width</span>
+              <span class="font-mono" id="dist-inf-val">60%</span>
+            </div>
+            <div class="slider-wrap" id="dist-inf-slider"></div>
+            <div class="ch5-meter"><div class="ch5-meter-fill" id="dist-meter" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <!-- Live values panel -->
+        <div class="panel">
+          <div class="panel-title font-mono">Aktuelle Werte</div>
+          <div id="live-vals">
+            <div class="ch5-live-row"><span>wght</span><span class="font-mono" id="lv-wght">200</span></div>
+            <div class="ch5-live-row"><span>size</span><span class="font-mono" id="lv-size">80px</span></div>
+            <div class="ch5-live-row"><span>wdth</span><span class="font-mono" id="lv-wdth">150</span></div>
+            <div class="ch5-live-row"><span>slnt</span><span class="font-mono" id="lv-slnt">0.0</span></div>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Stage -->
+      <section class="ch5-stage" id="ch5-stage">
+        <div class="ch5-stage-label font-mono" id="ch5-stage-label">BÜHNE · Eingaben aktivieren, um zu beginnen</div>
+
+        <div class="ch5-display-text font-showcase" id="ch5-text">Schrift, die zuhört.</div>
+
+        <!-- Camera preview with face landmark overlay -->
+        <div class="ch5-cam-preview" id="ch5-cam-preview">
+          <canvas id="ch5-facecanvas"></canvas>
+          <span class="ch5-cam-label font-mono">KAMERA</span>
+        </div>
+
+        <div class="ch5-stage-bottom">
+          <div class="ch5-bar">
+            <div class="ch5-bar-label font-mono">MIKROFON</div>
+            <div class="ch5-bar-track"><div class="ch5-bar-fill" id="bar-audio" style="background:rgba(246,245,240,0.3);width:0%"></div></div>
+          </div>
+          <div class="ch5-bar">
+            <div class="ch5-bar-label font-mono">GESICHTSABSTAND</div>
+            <div class="ch5-bar-track"><div class="ch5-bar-fill" id="bar-dist" style="background:rgba(246,245,240,0.3);width:0%"></div></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Hidden video element for camera feed -->
+  <video id="ch5-cam" playsinline muted autoplay style="display:none"></video>
+
+  <!-- TensorFlow.js + BlazeFace for face landmark detection -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.2.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
+  <script src="progress.js"></script>
+  <script src="overlay.js"></script>
+  <script src="chapter5.js"></script>
+  <script src="slider-touch.js"></script>
+  <script>
+  (function() {
+    function pwaNav(e) {
+      var a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      try {
+        var url = new URL(a.href, location.href);
+        if (url.origin !== location.origin) return;
+      } catch(ex) { return; }
+      e.preventDefault();
+      window.location.assign(a.href);
+    }
+    document.addEventListener('touchend', pwaNav, { passive: false });
+    document.addEventListener('click',    pwaNav, false);
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <link rel="apple-touch-icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=1366, height=1024, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover" />
+  <title>CH.06 — Wissenszentrum · Type Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-background flex flex-col">
+
+  <div class="ch6-header">
+    <header class="chapter-header">
+      <div class="chapter-header-inner">
+        <span class="chapter-num font-mono">CH.06</span>
+        <span class="chapter-title-label font-display">Wissenszentrum</span>
+        <div class="progress-dots" id="progress-dots"></div>
+        <div class="chapter-header-right">
+          <button class="btn-complete" id="btn-complete" type="button">Abschließen</button>
+        </div>
+      </div>
+      <p class="chapter-eyebrow text-muted">
+        Artikel, Fallstudien und Inspiration für die Zeit nach dem Kurs.
+      </p>
+    </header>
+  </div>
+
+  <main class="chapter-main animate-in">
+    <div class="ch6-layout">
+
+      <!-- Hero article -->
+      <article class="ch6-hero">
+        <div class="ch6-hero-art">
+          <img src="Images/ch6-hero-wpp.webp" alt="WPP variable font logo" class="ch6-hero-img" />
+        </div>
+        <div class="ch6-hero-body">
+          <span class="ch6-hero-tag font-mono">FALLSTUDIE · MONOTYPE</span>
+          <h2 class="ch6-hero-title font-display">Das erste variable Font-Logo der Welt</h2>
+          <p class="ch6-hero-excerpt">
+            Fontsmith und VBAT Amsterdam entwickelten für WPP ein Logo, dessen Letterformen sich per Wärmekamera in Echtzeit an menschliche Interaktion anpassen – Farbe, Form und Weight als lebendige Reaktion auf den Raum. Variable Font-Technologie wird damit erstmals zur identitätsstiftenden Architektur.
+          </p>
+          <a class="ch6-hero-read font-mono" href="https://www.monotype.com/resources/monotype-labs/world%E2%80%99s-first-variable-font-logo" target="_blank">Monotype Labs · Fallstudie lesen →</a>
+        </div>
+      </article>
+
+      <!-- Article grid -->
+      <div class="ch6-grid" id="ch6-grid"></div>
+
+      <!-- Footer -->
+      <footer class="ch6-footer">
+        <h2 class="font-display">Du hast das Ende des Kurses erreicht.</h2>
+        <p>Schließe dieses Kapitel ab, um deinen Kurs zu beenden.</p>
+      </footer>
+
+    </div>
+  </main>
+
+  <script src="progress.js"></script>
+  <script src="overlay.js"></script>
+  <script src="chapter6.js"></script>
+  <script>
+  (function() {
+    function pwaNav(e) {
+      var a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      try {
+        var url = new URL(a.href, location.href);
+        if (url.origin !== location.origin) return;
+      } catch(ex) { return; }
+      e.preventDefault();
+      window.location.assign(a.href);
+    }
+    document.addEventListener('touchend', pwaNav, { passive: false });
+    document.addEventListener('click',    pwaNav, false);
+  })();
+  </script>
+</body>
+</html>

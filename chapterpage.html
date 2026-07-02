@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <link rel="apple-touch-icon" href="Images/Icons/Typo und Technologie Logo.jpg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=1366, height=1024, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover" />
+  <title>Type Lab — Generativer Typografie-Kurs</title>
+  <meta name="description" content="Eine interaktive E-Learning-Anwendung zu Typografie, Variable Fonts und generativem Schriftdesign." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-background">
+
+  <header class="home-header">
+    <div class="home-header-left">
+      <!-- <p class="home-tag font-mono">Type Lab · Edition 01</p> -->
+      <h1 class="home-headline font-display">
+        Technologie und Typografie,<br />Kapitel für Kapitel.
+      </h1>
+    </div>
+    <div class="home-progress">
+      <p class="home-progress-label font-mono">FORTSCHRITT</p>
+      <p class="home-progress-count font-display" id="progress-count">
+        0<span>/6</span>
+      </p>
+      <button class="home-reset" id="reset-btn" type="button" style="display:none">Fortschritt zurücksetzen</button>
+    </div>
+  </header>
+
+  <div class="chapters-grid" id="chapters-grid">
+    <!-- Cards rendered by JS -->
+  </div>
+
+  <script src="progress.js"></script>
+  <script src="chapterpage.js"></script>
+  <script>
+  (function() {
+    function pwaNav(e) {
+      var a = e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      try {
+        var url = new URL(a.href, location.href);
+        if (url.origin !== location.origin) return;
+      } catch(ex) { return; }
+      e.preventDefault();
+      window.location.assign(a.href);
+    }
+    document.addEventListener('touchend', pwaNav, { passive: false });
+    document.addEventListener('click',    pwaNav, false);
+  })();
+  </script>
+  <script>
+  (function () {
+    var STORAGE_KEY = 'type-lab-overlay-ack-home';
+
+    var overlay = document.createElement('div');
+    overlay.className = 'instruction-overlay';
+    overlay.innerHTML =
+      '<div class="instruction-card">' +
+        '<div class="instruction-card-meta">TYPE LAB</div>' +
+        '<div class="instruction-card-title">Willkommen</div>' +
+        '<p class="instruction-card-text">' +
+          'In unserem E-Learning erwarten dich sechs Kapitel, in denen du Schritt ' +
+          'für Schritt mehr über Technologie und Typografie lernst.' +
+          '<br><br>' +
+          'Die Inhalte bauen aufeinander auf schalte die Kapitel nacheinander ' +
+          'frei und vertiefe dein Wissen mit jedem Abschnitt.' +
+        '</p>' +
+        '<button class="instruction-btn-ok" type="button">Verstanden</button>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    var acknowledged = false;
+    try { acknowledged = !!localStorage.getItem(STORAGE_KEY); } catch(e) {}
+    if (acknowledged) overlay.style.display = 'none';
+
+    function dismiss() {
+      overlay.style.display = 'none';
+      try { localStorage.setItem(STORAGE_KEY, '1'); } catch(e) {}
+    }
+
+    function show() {
+      overlay.style.display = 'flex';
+      var card = overlay.querySelector('.instruction-card');
+      card.style.animation = 'none';
+      card.offsetHeight;
+      card.style.animation = '';
+    }
+
+    overlay.querySelector('.instruction-btn-ok').addEventListener('click', function(e) {
+      e.stopPropagation();
+      dismiss();
+    });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) dismiss();
+    });
+
+    var infoBtn = document.createElement('button');
+    infoBtn.className = 'info-btn';
+    infoBtn.type = 'button';
+    infoBtn.title = 'Info anzeigen';
+    infoBtn.textContent = 'i';
+    infoBtn.style.background = '#1e1c19';
+    infoBtn.style.color = '#f6f5f0';
+    infoBtn.style.border = 'none';
+    infoBtn.addEventListener('click', show);
+    document.body.appendChild(infoBtn);
+
+    window.__showHomeOverlay = show;
+  })();
+  </script>
+</body>
+</html>
